@@ -1,9 +1,21 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom";
 import App from "./App.jsx";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import reducers from "./reducers"; // Assuming you have a 'reducers' file
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const store = createStore(reducers, compose(applyMiddleware(thunk)));
+
+const root = document.getElementById("root");
+
+if (root !== null) {
+  createRoot(root).render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </React.StrictMode>
+  );
+}
